@@ -1,14 +1,19 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /var/www/html/dotNetCore-sample
+  - source: /  # Root directory of your zip file
+    destination: /var/www/html  # Destination directory on the EC2 instance
+
 hooks:
-  BeforeInstall:
+  AfterInstall:
     - location: scripts/install_dependencies.sh
       timeout: 300
       runas: root
   ApplicationStart:
     - location: scripts/start_server.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: scripts/validate_service.sh
       timeout: 300
       runas: root
